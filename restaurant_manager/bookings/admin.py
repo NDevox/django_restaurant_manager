@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from bookings.models import Restaurant, Table, Booking
+
+
+admin.register(Restaurant)
+admin.register(Table)
+admin.register(Booking)
