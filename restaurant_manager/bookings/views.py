@@ -22,7 +22,6 @@ def choose_restaurant(request):
         form = RestaurantChoiceForm(request.POST)
 
         if form.is_valid():
-            print(form.cleaned_data)
 
             return redirect('bookings:make_booking', form.cleaned_data['restaurant_choice'].pk)
 
@@ -35,13 +34,16 @@ def choose_restaurant(request):
 def make_booking(request, restaurant_pk):
     restaurant = Restaurant.objects.get(pk=restaurant_pk)
     if request.method == 'POST':
-        form = BookingForm(request.POST)
+        form = BookingForm(restaurant, request.POST)
 
         if form.is_valid():
-            Booking.objects.create(**form.cleaned_data)
+            tables = form.cleaned_data.pop('table')
+            booking = Booking.objects.create(**form.cleaned_data)
+            booking.table.add(*tables)
 
             return HttpResponse('Done')
 
-    form = BookingForm(restaurant)
+    else:
+        form = BookingForm(restaurant=restaurant)
 
     return render(request, 'bookings/book.html', {'form': form})
