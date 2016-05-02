@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from bookings.models import Restaurant, Booking, BookingForm, RestaurantForm, RestaurantChoiceForm
+from bookings.models import Restaurant, Booking
+from bookings.forms import BookingForm, RestaurantForm, RestaurantChoiceForm
 
 
 def make_restaurant(request):
