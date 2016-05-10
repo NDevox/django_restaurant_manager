@@ -1,10 +1,7 @@
-import datetime
 from itertools import combinations
 
-from django import forms
 from django.db import models
 from django.db.models import Q
-from django.forms import ModelForm, Select, ValidationError, TextInput, Form, SelectDateWidget
 
 
 class Table(models.Model):
@@ -28,12 +25,13 @@ class Restaurant(models.Model):
     closing_time = models.TimeField()
     tables = models.ManyToManyField(Table)
 
-    def optimise(self, smaller_tables, bigger_tables, party):
+    @staticmethod
+    def optimise(smaller_tables, bigger_tables, party):
         """
         This calculates whether smaller tables can be joined to fit the customers needs, or if we can use a bigger table.
 
         A current limitation is it will not consider a combination of smaller tables which add up to more than the
-        requirement. This should be relatvely simple to fix though.
+        requirement. This should be relatively simple to fix though.
 
         :param smaller_tables: lst [Table], a list of tables smaller than the party size.
         :param bigger_tables: lst [Table], a list of tables larger than the party size.
